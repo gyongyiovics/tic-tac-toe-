@@ -1,5 +1,7 @@
 import os
 from time import sleep
+import board
+import player
 
 #tic-tac-toe game in python language 
 # move, menu and game related functions
@@ -8,9 +10,71 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def game(mode='HUMAN-HUMAN'):
+    if mode == 'HUMAN-HUMAN':
+        p1 = True
+        p2 = True
+    if mode == 'HUMAN-AI':
+        p1 = True
+        p2 = False
+    elif mode == 'AI-HUMAN':
+        p1 = False
+        p2 = True
+    elif mode == 'AI-AI':
+        p1 = False
+        p2 = False
+    clear()
+    board_display = board.init_board()
+    while True:
+        # use get_move(), mark(), has_won(), is_full(), and print_board() to create game logic
+        board.print_board(board_display)
+        # row, col = get_move(board, 1)
+        if p1:
+            player.mark(board_display, 1, *player.get_move(board_display, 1))
+        else:
+            player.mark(board_display, 1, *player.get_ai_move(board_display, 1))
+            sleep(1)
+        if has_won(board_display, 1):
+            winner = 1
+            break
+        elif is_full(board_display):
+            winner = 0
+            break
+        clear()
+
+        board.print_board(board_display)
+        # row, col = get_move(board, 2)
+        if p2:
+            player.mark(board_display, 2, *player.get_move(board_display, 2))
+        else:
+            player.mark(board_display, 2, *player.get_ai_move(board_display, 2))
+            sleep(1)
+        if has_won(board_display, 2):
+            winner = 2
+            break
+        elif is_full(board_display):
+            winner = 0
+            break
+        clear()
+    clear()
+    board.print_board(board_display)
+    print_result(winner)
+
+
+
 def main_menu():
-    gamemode = input('Choose gamemode: ')
-    print(gamemode)
+    gamemode = input("Choose Gamemode:\n1. PLAYER VS PLAYER        2. HUMAN VS AI\n")
+    if int(gamemode) == 1:
+        game('HUMAN-HUMAN')
+    elif int(gamemode) == 2:
+        gamemode = input(
+            "Do you want to go first, or let the AI do? (1 to go first, 2 to go second):\n")
+        if int(gamemode) == 1:
+            game("HUMAN-AI")
+        elif int(gamemode) == 2:
+            game("AI-HUMAN")
+
+
 
 
 def quit_game():
@@ -54,4 +118,4 @@ def print_result(winner):
 
 if __name__ == '__main__':
     clear()
-    #main_menu()
+    main_menu()
