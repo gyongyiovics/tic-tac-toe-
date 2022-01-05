@@ -4,6 +4,7 @@ def init_board():
     board = [[0 for x in range(3)] for y in range(3)]
     return board
 
+
 def make_board_visible(board):
     vis_board = []
 

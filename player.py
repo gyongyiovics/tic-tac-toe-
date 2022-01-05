@@ -1,4 +1,6 @@
 import game
+from random import randint
+
 # player related functions
 
 def get_move(board, player):
@@ -32,7 +34,7 @@ def get_move(board, player):
 
 def get_ai_move(board, player):
     """Returns the coordinates of a valid move for player on board."""
-    if is_full(board):
+    if game.is_full(board):
         return None
     # winning move if possible
     for x in range(len(board)):
@@ -157,5 +159,6 @@ def mark(board, player, row, col):
         board[row][col] = int(player)
         return board
     except IndexError:
+        print("Index is out of range")
         pass
 
